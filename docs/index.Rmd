@@ -77,7 +77,7 @@ Para acessar esse documento:
 
 ```{r, echo=FALSE, fig.align='center'}
 
-url <- "https://gerriosantos.github.io/curso_feaac_econ/#1"
+url <- "https://gerriosantos.github.io/nupace_minicurso/#1"
 plot(qrcode::qr_code(url, ecl = 'M'), col = c('white', '#a11647'))
 
 ```
