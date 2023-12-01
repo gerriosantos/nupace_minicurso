@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
 
-- [Slide](https://gerriosantos.github.io/presetation_race/#/title-slide)
+- [Slide](https://gerriosantos.github.io/nupace_minicurso/#1)
 
 
 

@@ -6,6 +6,6 @@
 &#10;
 &#10;
 
-- [Slide](https://gerriosantos.github.io/presetation_race/#/title-slide)
+- [Slide](https://gerriosantos.github.io/nupace_minicurso/#1)
 
 ![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
