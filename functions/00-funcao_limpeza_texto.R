@@ -14,3 +14,6 @@ formata_nome <- function(x) {
   x <- stringr::str_squish(x)
   return(x)
 }
+
+
+# x <- "Exemplo de do da ÁÉÍÓÚ  "

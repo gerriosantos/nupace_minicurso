@@ -53,6 +53,8 @@ g1 <- ggplot(data = df, mapping = aes(x = ideb, y = desp_per_capita))+
 
 
 
+
+
 # Fazer um mapa ----
 
 # install.packages('geobr')
@@ -112,7 +114,7 @@ library(scales)
 
 
 g3 <- ggplot(data = ff, aes(x = ano, y = desp_per_capita)) +
-  geom_line(size = 1, color = 'blue')+
+  geom_line(linewidth = 1, color = 'blue')+
   geom_point(color = 'blue', size = 3)+
   theme_minimal()+
   scale_x_continuous(breaks = seq(2013, 2020, 1))+
@@ -123,6 +125,8 @@ g3 <- ggplot(data = ff, aes(x = ano, y = desp_per_capita)) +
 
   labs(title = 'Evolução das Despesas com Educ - CE',
        x = NULL, y = 'Despesa com Educação Per Capita')
+
+g3
 
 
 

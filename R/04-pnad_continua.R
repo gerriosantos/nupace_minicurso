@@ -3,10 +3,10 @@
 # library(PNADcIBGE)
 
 
+########### VISITA 1 -----
 
 
 # Coluna Fixa
-
 
 rm(list = ls())
 gc()
@@ -22,14 +22,13 @@ source('functions/00-funcao_limpeza_texto.R')
 # Retirando todas as variáveis ----
 
 
-d <- readxl::read_xls('data-raw/dicionario_PNADC_microdados_trimestral.xls',
-                      skip = 1) |>
+d <- readxl::read_xls('data-raw/dicionario_PNADC_microdados_trimestral.xls', skip = 1) |>
   dplyr::select(2, 3, nome = `...5`) |>
   janitor::clean_names() |>
   dplyr::mutate(nome = coalesce(nome, codigo_da_variavel),
                 nome = formata_nome(nome)) |>
   tidyr::drop_na() |>
-  unnest_tokens(nome_var, nome, token = 'ngrams', n = 4, drop = F) |>
+  tidytext::unnest_tokens(nome_var, nome, token = 'ngrams', n = 4, drop = F) |>
   dplyr::mutate(nome_var = coalesce(nome_var, nome)) |>
   dplyr::distinct(codigo_da_variavel, .keep_all = TRUE) |>
   dplyr::select(-nome)
@@ -49,12 +48,18 @@ library(readr)
 # Funcao par pegar as posicoes da pnad
 pos <- fwf_widths(widths = tam, col_names = names)
 
-df <- read_fwf('data-raw/PNADC_012023.txt', col_positions = pos)
+df <- read_fwf('data-raw/PNADC_2022_trimestre4.txt', col_positions = pos)
+
+# df <- read_fwf('data-raw/PNADC_012023.txt', col_positions = pos)
 
 
 df_1 <- df |>
-  janitor::clean_names() |>
-  select(ano, trimestre)
+  janitor::clean_names()
+
+
+
+survey::svydesign()
+srvyr::
 
 
 
