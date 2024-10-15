@@ -20,8 +20,14 @@ source('functions/00-funcao_limpeza_texto.R')
 
 
 
+
 # ----------------- 1º - Retirando todas as variáveis -----------------
 
+
+
+# Pegamos o dicionario e limpamos para pegar os nomes de todas as variavei
+# podemos usar o codigo da variável, ou o nome da variável.
+# é um código que pode ser melhorado em relacao ao nome das variaveis
 
 d <- readxl::read_xls('data-raw/dicionario_PNADC_microdados_trimestral.xls', skip = 1) |>
   dplyr::select(2, 3, nome = `...5`) |>
