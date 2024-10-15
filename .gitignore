@@ -1,6 +1,7 @@
 .Rproj.user
 data/
 data-raw/
+data-raw1/
 .Rhistory
 .Rdata
 .httr-oauth

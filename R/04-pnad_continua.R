@@ -14,12 +14,13 @@ gc()
 library(tidyverse)
 #library(tokenizers)
 library(tidytext)
+# Funcao criada para limpar textos
 source('functions/00-funcao_limpeza_texto.R')
 
 
 
 
-# Retirando todas as variáveis ----
+# ----------------- 1º - Retirando todas as variáveis -----------------
 
 
 d <- readxl::read_xls('data-raw/dicionario_PNADC_microdados_trimestral.xls', skip = 1) |>
@@ -29,11 +30,18 @@ d <- readxl::read_xls('data-raw/dicionario_PNADC_microdados_trimestral.xls', ski
                 nome = formata_nome(nome)) |>
   tidyr::drop_na() |>
   tidytext::unnest_tokens(nome_var, nome, token = 'ngrams', n = 4, drop = F) |>
-  dplyr::mutate(nome_var = coalesce(nome_var, nome)) |>
+  dplyr::mutate(nome_var = janitor::make_clean_names(coalesce(nome_var, nome)),
+
+                nome_var = ifelse(stringr::str_starts(nome_var, 'peso'), NA, nome_var),
+                nome_var = coalesce(nome_var, codigo_da_variavel)
+
+                ) |>
   dplyr::distinct(codigo_da_variavel, .keep_all = TRUE) |>
   dplyr::select(-nome)
 
 
+
+# Usando o datapasta para criar vetores por meio da base de dados
 # library(datapasta)
 # usa a funcao dpasta
 # tam <- c(4, 1, 2, 2, 2, 9, 7, 2, 2, 1, 1, 1, 15, 15, 9, 9, 3, 3, 2, 2, 2, 1, 2, 2, 4, 3, 1, 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 4, 1, 1, 5, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 1, 1, 8, 1, 1, 1, 1, 1, 8, 1, 1, 8, 3, 3, 1, 2, 2, 2, 4, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 8, 1, 1, 8, 1, 1, 1, 1, 1, 8, 1, 1, 8, 3, 3, 1, 1, 1, 1, 8, 1, 1, 8, 1, 1, 1, 1, 1, 1, 8, 1, 1, 8, 3, 3, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 8, 8, 1, 8, 8, 1, 1, 3, 3, 3, 3, 3, 1, 1, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15)
@@ -41,30 +49,19 @@ d <- readxl::read_xls('data-raw/dicionario_PNADC_microdados_trimestral.xls', ski
 
 
 tam <- d |> pull(tamanho)
-names <- d |> pull(nome_var)
+names <- d |> pull(codigo_da_variavel)
 
 library(readr)
 
 # Funcao par pegar as posicoes da pnad
 pos <- fwf_widths(widths = tam, col_names = names)
-
 df <- read_fwf('data-raw/PNADC_2022_trimestre4.txt', col_positions = pos)
 
 # df <- read_fwf('data-raw/PNADC_012023.txt', col_positions = pos)
 
 
-df_1 <- df |>
-  janitor::clean_names()
 
-
-
-survey::svydesign()
-srvyr::
-
-
-
-
-# Retirar apenas algumas variáveis ----
+# ------------------ 2º - Retirar apenas algumas variáveis ------------
 
 
 lpes<-list(
@@ -93,7 +90,7 @@ pes<-read_fwf("data-raw/PNADC_012023.txt", col_positions = fwpos(lpes))
 
 
 
-# Utilizando tibble -- FÁCIL ----
+# ---------------------- 3º Utilizando tibble -- FÁCIL ----
 
 
 

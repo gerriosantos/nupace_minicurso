@@ -185,7 +185,7 @@ pnadc19 <- pnadc19 %>%
 
 # Definir linhas de pobreza (de 2019) - critério do Banco Mundial
 lep <- 151  # US$ 1,90/dia ~ R$151/mes
-lp <- 36    # US$ 5,5/dia ~ R$436/mes
+lp <- 436    # US$ 5,5/dia ~ R$436/mes
 
 # Criar variáveis dummy para contar pessoas na pobreza
 pnadc19 <- pnadc19 %>%
