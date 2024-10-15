@@ -25,7 +25,7 @@ source('functions/00-funcao_limpeza_texto.R')
 
 
 
-# Pegamos o dicionario e limpamos para pegar os nomes de todas as variavei
+# Pegamos o dicionario e limpamos para pegar os nomes de todas as variaveis
 # podemos usar o codigo da variável, ou o nome da variável.
 # é um código que pode ser melhorado em relacao ao nome das variaveis
 
